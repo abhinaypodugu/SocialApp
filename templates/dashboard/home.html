@@ -1,0 +1,74 @@
+{% extends 'account/base.html' %}
+{% load static %}
+
+{% block extra_head %}
+    <link rel="stylesheet" href='{% static "css/slider.css" %}'>
+{% endblock %}
+
+{% block content %}
+    <div class="text-center">
+        <h2>Welcome to Social Login Application</h2>
+        {% if user.is_authenticated %}
+        <p id="text">Hello {{ user.first_name }}!</p>
+        <p>-------------------- Download the PDF from --------------------</p>
+        <a class="btn btn-dark" href="/download_file">Internal Link</a>
+        <a class="btn btn-dark" href="https://drive.google.com/uc?export=download&id=1m_eRi3wCbe_k1Cy-4gAs3W9HJmCYvHQu" download>External Link</a>
+        {% endif %}
+
+
+    </div>
+{% endblock %}
+
+{% block extra_body %}
+        {% if user.is_authenticated %}
+
+            <div class="container">
+                <input class="none" type="range" min="0" max="100" value="0" id="slider" step="1">    
+            </div>
+            <div class="center1">
+                <button onclick="colourchange()">Click here to change colour</button>
+            </div>
+        {% endif %}
+
+        <form action="{% url 'add' %}" method="post" role="form">
+            {% csrf_token %}
+            <div class="form-group">
+                <div class="input-group">
+                    {{form.text}}
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn-dark" id="add-btn">ADD</button>
+                    </span>
+                </div>
+            </div>
+        </form>
+
+        <div class="container">
+
+        {% for text in textList %}
+                    <div class="form-group">
+                        <div class="input-group">
+                            <textarea readonly rows="1" style="resize: none; overflow: hidden;" type="text" name="text" class="form-control" aria-describedby="add-btn" maxlength="100"
+                                id="id_text">{{ text.text }}
+                            </textarea>
+                            <span>
+                                <a href="{% url 'delete' text.id %}">
+                                    <span class="input-group-btn">
+                                        <button type="submit" class="btn btn-dark" id="add-btn">DELETE</button>
+                                    </span>
+                                </a>
+                            </span>
+                        </div>
+                    </div>
+
+        {% endfor %}
+
+        </div>
+        
+{% endblock %}
+
+{% block jsblock %}
+
+    <script src="{% static 'js/slider.js' %}"></script>
+    <script src="{% static 'js/colour.js' %}"></script>
+
+{% endblock %}
