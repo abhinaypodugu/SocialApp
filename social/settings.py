@@ -78,7 +78,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-
+                'django.template.context_processors.media',
                 'django.template.context_processors.request',
             ],
         },
@@ -86,7 +86,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'social.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
@@ -140,7 +139,8 @@ STATICFILES_DIRS = [
     BASE_DIR / 'social/static',
     BASE_DIR / 'static',
 ]
-
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+MEDIA_URL = "/media/"
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # Default primary key field type

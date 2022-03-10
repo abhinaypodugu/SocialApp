@@ -63,14 +63,63 @@
         {% endfor %}
 
         </div>
+        <div class="text-center"><h3>-------------------- Add Images here --------------------</h3></div>
         
-        <span>
+
+        <form action="{% url 'addImg' %}" method="post" role="form" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <div class="input-group">
+                    {{imgForm.image}} 
+                    
+                    {{imgForm.imgText}}
+                    <span class="input-group-btn">
+                        <button type="submit" class="btn btn-dark" id="add-btn">ADD</button>
+                    </span>
+                </div>
+            </div>
+        </form>
+            <footer class="footer">
+                <div class="container">
+                <p class="heart"></p>
+                </div>
+            </footer>
+            {% for img in imgList %}
+                <div style=" align-items: center; align-content:center;  text-align: center; border: 4px dotted blue;">
+                <div class="zoom container" style=" align-items: center; align-content:center; overflow: hidden; text-align: center;width: 300px;  height: 300px; border: 2px solid black;">
+                        <img id="{{img.image}}" src="/media/{{img.image}}" style="align-self: center; width: 100%;" onmousewheel="p{{img.id}}(event)">
+                </div>
+                <p>{{img.imgText}}</p>
+                    <span>
+                        <a href="{% url 'deleteImg' img.id %}">
+                            <span class="input-group-btn">
+                                <button type="submit" class="btn btn-dark" id="add-btn">DELETE</button>
+                            </span>
+                        </a>
+                    </span>
+                </div>
+            <footer class="footer">
+                <div class="container">
+                <p class="heart"></p>
+                </div>
+            </footer>
+                <script>
+
+                        function p{{img.id}}(event) {
+                            event.preventDefault();
+                        };
+                        
+                </script>
+            {% endfor %}
+
+
+        <!-- <span>
         <div class="container">
             <div class="Sirv" data-effect="zoom" width="800" height="400">
                 <img data-src="https://ageteren.sirv.com/usflag%20(Custom).png" />
             </div>
         </div>
-        <a href="https://www.google.com/">link</a></span>
+        <a href="https://www.google.com/">link</a></span> -->
         <!-- <div class="container">
             <iframe src="https://srv2.zoomable.ca/viewer.php?i=img492f7f2c32589c4b_flag" width="600" height="450" frameborder="0"
                 style="border:0" allowfullscreen></iframe>
@@ -82,4 +131,20 @@
     <script src="{% static 'js/slider.js' %}"></script>
     <script src="{% static 'js/colour.js' %}"></script>
     <script src="https://scripts.sirv.com/sirv.js"></script>
+    <script src="{% static 'js/directive.js' %}"></script>
+    <!-- <script>
+    document.getElementById("zoom").addEventListener("wheel", keyDown);
+        function keyDown(event) {
+            event.preventDefault();
+
+            // const scale += event.deltaY * -0.01;
+            img = document.getElementById("zoomimg")
+            if (event.deltaY != 0){
+                img.width += event.deltaY * -0.5;
+                img.height += event.deltaY * -0.5;
+                img.style.margin = ((600 - img.height)/2).toString() + "px";
+            }
+        };
+        
+    </script> -->
 {% endblock %}

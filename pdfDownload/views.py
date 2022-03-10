@@ -1,5 +1,5 @@
 from re import template
-from .models import textBox
+from .models import textBox, Image
 from django.views.generic import TemplateView
 import os
 from django.http import HttpResponse
@@ -8,7 +8,7 @@ import mimetypes
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 
-from .forms import textForms
+from .forms import textForms, ImageForm
 from django.views.decorators.http import require_POST
 # Create your views here.
 
@@ -27,20 +27,6 @@ def download_file(request):
     return response
 
 
-# class Index(TemplateView):
-
-#     template_name = 'home'
-#     def index(request):
-
-#         textList = textBox.objects.order_by('id')
-
-#         context = TemplateView.get_context_data()
-
-#         context = {'textList' : textList}
-
-#         return render(request, 'dashboard/home.html', context)
-
-
 class Index(TemplateView):
     template_name = 'dashboard/home.html'
 
@@ -49,6 +35,10 @@ class Index(TemplateView):
         form = textForms()
         context['textList'] = textBox.objects.order_by('id')
         context['form'] = form
+        imgForm = ImageForm()
+        context['imgList'] = Image.objects.order_by('id')
+        # print(context['imgList'][0].image)
+        context['imgForm'] = imgForm
         return context
 
 # @login_required
@@ -67,5 +57,23 @@ def addText(request):
 def deleteText(request, text_id):
 
     text = textBox.objects.filter(id=text_id).delete()
+
+    return redirect('home')
+
+@require_POST
+def addImg(request):
+
+    imgForm = ImageForm(request.POST or None, request.FILES or None)
+    print(request.POST, request.FILES)
+    if imgForm.is_valid():
+        newObj = Image(image=request.FILES['image'], imgText=request.POST['imgText'])
+        newObj.save()
+
+    return redirect('home')
+
+
+def deleteImg(request, img_id):
+
+    image = Image.objects.filter(id=img_id).delete()
 
     return redirect('home')

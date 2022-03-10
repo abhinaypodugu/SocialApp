@@ -17,7 +17,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
-from pdfDownload.views import download_file , Index, addText, deleteText
+from pdfDownload.views import download_file , Index, addText, deleteText, addImg, deleteImg
 from django.conf.urls.static import static
 
 
@@ -28,8 +28,10 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('download_file/', download_file, name='download_file'),
     path('add', addText, name='add'),
-    path('delete/<text_id>', deleteText, name='delete')
+    path('delete/<text_id>', deleteText, name='delete'),
+    path('addImg', addImg, name='addImg'),
+    path('deleteImg/<img_id>', deleteImg, name='deleteImg'),
 
 ]
 
-# urlpatterns = urlpatterns + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
+urlpatterns = urlpatterns + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
