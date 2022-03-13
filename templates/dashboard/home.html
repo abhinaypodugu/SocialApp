@@ -87,7 +87,7 @@
             {% for img in imgList %}
                 <div style=" align-items: center; align-content:center;  text-align: center; border: 4px dotted blue;">
                 <div class="zoom container" style=" align-items: center; align-content:center; overflow: hidden; text-align: center;width: 300px;  height: 300px; border: 2px solid black;">
-                        <img id="{{img.image}}" src="/media/{{img.image}}" style="align-self: center; width: 100%;" onmousewheel="p{{img.id}}(event)">
+                        <img id="i{{img.id}}" src="/media/{{img.image}}" style="align-self: center; width: 100%;" onmousewheel="p{{img.id}}(event)">
                 </div>
                 <p>{{img.imgText}}</p>
                     <span>
